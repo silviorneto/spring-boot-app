@@ -3,25 +3,30 @@ package com.personal.springcourse.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-// Interface Serializable => transforma em cadeia de bytes
-// Pra que serve? Pra que o objeto trafegue na rede, seja gravado em arquivos, etc
-public class User implements Serializable {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+@Entity
+public class UserEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private String email;
 	private String phone;
 	private String password;
 
-//	List<Order> orderList = new ArrayList<>();
-
-	public User() {
+	public UserEntity() {
 
 	}
 
-	public User(Long id, String name, String email, String phone, String password) {
+	public UserEntity(Long id, String name, String email, String phone, String password) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
@@ -82,7 +87,10 @@ public class User implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		UserEntity other = (UserEntity) obj;
 		return Objects.equals(id, other.id);
 	}
+
+
+	
 }
