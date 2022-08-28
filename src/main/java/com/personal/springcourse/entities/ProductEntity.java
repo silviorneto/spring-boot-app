@@ -13,26 +13,31 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "tb_category")
-public class CategoryEntity implements Serializable {
-
+@Table(name = "tb_product")
+public class ProductEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	private String name;
+	private String description;
+	private Double price;
+	private String imgUrl;
 	
 	@Transient
-	private Set<ProductEntity> products = new HashSet<>();
-
-	public CategoryEntity() {
+	private Set<CategoryEntity> categories = new HashSet<>();
+	
+	public ProductEntity() {
+		
 	}
-
-	public CategoryEntity(Long id, String name) {
+	
+	public ProductEntity(Long id, String name, String description, Double price, String imgUrl) {
 		this.id = id;
 		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.imgUrl = imgUrl;
 	}
 
 	public Long getId() {
@@ -50,15 +55,38 @@ public class CategoryEntity implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 
-	public Set<ProductEntity> getProducts() {
-		return products;
+	public String getDescription() {
+		return description;
 	}
 
-//	public void addProduct(ProductEntity product) {
-//		this.products.add(product);
-//	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	} 
+	
+	public Set<CategoryEntity> getCategories() {
+		return categories;
+	}
+
+//	public void addCategory(CategoryEntity category) {
+//		this.categories.add(category);
+//	}	
 
 	@Override
 	public int hashCode() {
@@ -73,13 +101,12 @@ public class CategoryEntity implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CategoryEntity other = (CategoryEntity) obj;
+		ProductEntity other = (ProductEntity) obj;
 		return Objects.equals(id, other.id);
 	}
 
 	@Override
 	public String toString() {
-		return "CategoryEntity [id=" + id + ", name=" + name + "]";
+		return "ProductEntity [id=" + id + ", name=" + name + ", price=" + price + "]";
 	}
-
 }

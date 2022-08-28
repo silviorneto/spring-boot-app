@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.personal.springcourse.entities.CategoryEntity;
 import com.personal.springcourse.entities.OrderEntity;
+import com.personal.springcourse.entities.ProductEntity;
 import com.personal.springcourse.entities.UserEntity;
 import com.personal.springcourse.entities.enums.OrderStatus;
 import com.personal.springcourse.repositores.CategoryRepository;
 import com.personal.springcourse.repositores.OrderRepository;
+import com.personal.springcourse.repositores.ProductRepository;
 import com.personal.springcourse.repositores.UserRepository;
 
 @Configuration
@@ -28,6 +30,9 @@ public class TestConfig implements CommandLineRunner{
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private ProductRepository productRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -42,7 +47,14 @@ public class TestConfig implements CommandLineRunner{
 		CategoryEntity cat2 = new CategoryEntity(null, "Books");
 		CategoryEntity cat3 = new CategoryEntity(null, "Computers");
 		
+		ProductEntity p1 = new ProductEntity(null, "The Lord of the Rings", "Lorem ipsum dolor sit amet, consectetur.", 90.5, "");
+		ProductEntity p2 = new ProductEntity(null, "Smart TV", "Nulla eu imperdiet purus. Maecenas ante.", 2190.0, "");
+		ProductEntity p3 = new ProductEntity(null, "Macbook Pro", "Nam eleifend maximus tortor, at mollis.", 1250.0, "");
+		ProductEntity p4 = new ProductEntity(null, "PC Gamer", "Donec aliquet odio ac rhoncus cursus.", 1200.0, "");
+		ProductEntity p5 = new ProductEntity(null, "Rails for Dummies", "Cras fringilla convallis sem vel faucibus.", 100.99, "");
+		
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
+		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 
 		userRepository.saveAll(Arrays.asList(u1, u2));
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
