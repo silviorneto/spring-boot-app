@@ -22,7 +22,6 @@ public class OrderItemEntity implements Serializable{
 	private Double price;
 	
 	public OrderItemEntity() {
-		
 	}
 
 	public OrderItemEntity(OrderEntity order, ProductEntity product, Integer quantity, Double price) {
@@ -66,6 +65,10 @@ public class OrderItemEntity implements Serializable{
 		this.price = price;
 	}
 
+	public Double getSubTotal() {
+		return price * quantity;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
