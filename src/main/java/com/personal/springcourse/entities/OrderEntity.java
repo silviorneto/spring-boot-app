@@ -93,8 +93,6 @@ public class OrderEntity implements Serializable {
 		return items;
 	}
 	
-	
-	
 	public PaymentEntity getPayment() {
 		return payment;
 	}
