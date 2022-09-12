@@ -3,6 +3,8 @@ package com.personal.springcourse.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,40 +17,43 @@ import com.personal.springcourse.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private UserRepository repository;
-	
+
 	public List<UserEntity> findAll() {
 		return repository.findAll();
 	}
-	
+
 	public UserEntity findById(Long id) {
-		Optional<UserEntity> obj =  repository.findById(id);
+		Optional<UserEntity> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
-	
-	public UserEntity insert (UserEntity obj) {
+
+	public UserEntity insert(UserEntity obj) {
 		return repository.save(obj);
 	}
-	
-	public void delete (Long id) {
+
+	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
-		}
-		catch (EmptyResultDataAccessException e) {
+		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException(id);
-		}
-		catch (DataIntegrityViolationException e) {
+		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException(e.getMessage());
 		}
 	}
-	
+
 	public UserEntity update(Long id, UserEntity obj) {
-		// getOne => Não vai no banco de dados ainda, deixa o objeto monitorado pelo JPA
-		UserEntity entity = repository.getOne(id); 
-		updateData(entity, obj);
-		return repository.save(entity);
+		try {
+			// getOne => Não vai no banco de dados ainda, deixa o objeto monitorado pelo JPA
+			UserEntity entity = repository.getOne(id); 
+			updateData(entity, obj);
+			return repository.save(entity);
+		}
+		catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(UserEntity entity, UserEntity obj) {
@@ -56,6 +61,5 @@ public class UserService {
 		entity.setEmail(obj.getEmail());
 		entity.setPhone(obj.getPhone());
 	}
-	
-	
+
 }
